@@ -16,8 +16,8 @@ let paper = "false";
 let inventory = zorkObjects.theGrid.inventory;
 let currentGrid = zorkObjects.theGrid.grid1024;
 const clearScreen = () => process.stdout.write('\033c');
-const printName = () => console.log("\n" + currentGrid.name + "\n");
-const printDescription = () => console.log(currentGrid.description + "\n");
+const printName = () => console.log("\n\x1b[4m\x1b[32mLocation:\n\x1b[0m\x1b[1m\x1b[34m" + currentGrid.name + "\n\x1b[0m");
+const printDescription = () => console.log("\x1b[33m" + currentGrid.description + "\n");
 const refreshScreen = () => {
   clearScreen();
   printName();
@@ -40,16 +40,30 @@ enterGrid();
 async function start() {
   while (true) {
     let input = await ask(" \n")
-      if (input === "read sign") {
+    if (input === "exit") {
+      clearScreen();
+      console.log("Goodbye!");
+      process.exit();
+    } else if (input === "read sign") {
+      if (currentGrid.sign && currentGrid.sign.read) {
+      refreshScreen();
+      console.log(currentGrid.sign.read);
+      } else {
         refreshScreen();
-        console.log(currentGrid.sign.read);
+        console.log("I don't see any sign here.");
+      }
       } else if (input === "take sign") {
+        if (currentGrid.sign && currentGrid.sign.take) {
         refreshScreen();
         console.log(currentGrid.sign.take);
-    } else if (input === "open door") {
-      refreshScreen();
-      console.log(currentGrid.door.open);
-    } else if (input === 'take paper' || input === 'take seven days' || input === 'pick up seven days') {
+        } else {
+          refreshScreen();
+          console.log("I don't see any sign here.");
+        }
+      } else if (input === "open door") {
+        refreshScreen();
+        console.log(currentGrid.door.open);
+        } else if (input === 'take paper' || input === 'take seven days' || input === 'pick up seven days') {
       refreshScreen();
       paper = true;
       console.log(inventory.item1.description);
@@ -73,11 +87,30 @@ async function start() {
       printName();
       printDescription();
     } else  if (input === "go upstairs") {
+      if (currentGrid === zorkObjects.theGrid.grid0824) {        
+        clearScreen();
+        moveToGrid(zorkObjects.theGrid.grid0724);
+        printName();
+        printDescription();
+        } else {
       clearScreen();
       moveToGrid(zorkObjects.theGrid.grid0824);
       printName();
       printDescription();
-    } else if (input === "back to start") {
+        }
+      } else  if (input === "go downstairs") {
+        if (currentGrid === zorkObjects.theGrid.grid0724) {        
+          clearScreen();
+          moveToGrid(zorkObjects.theGrid.grid0824);
+          printName();
+          printDescription();
+          } else {
+        clearScreen();
+        moveToGrid(zorkObjects.theGrid.grid0924);
+        printName();
+        printDescription();
+          }
+      } else if (input === "restart") {
       console.log("Starting over...");
       currentGrid = zorkObjects.theGrid.grid1024;
       enterGrid();

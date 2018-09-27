@@ -21,10 +21,10 @@
         "open": "The door is locked. There is a keypad on the door handle.\n",
         "code": "Bzzzzt! The door is still locked.\n"
       },
-      "north": "grid0924",
-      "west": "grid1023",
-      "south": "grid1124",
-      "east": "grid1025"
+      "north": "zorkObjects.theGrid.grid0924",
+      "west": "zorkObjects.theGrid.grid1023",
+      "south": "zorkObjects.theGrid.grid1124",
+      "east": "zorkObjects.theGrid.grid1025"
     },
     "grid0924": {
       "name": "182 Main St. - Foyer",
@@ -37,10 +37,8 @@
         "open": "You open the door and look outside.  What a lovely day!\n",
         "code": "CODE: go upstairs\n"
       },
-      "north": "grid0824",
-      "west": "",
-      "south": "grid1024",
-      "east": ""
+      "north": "zorkObjects.theGrid.grid0824",
+      "south": "zorkObjects.theGrid.grid1024"
     },
     "grid0824": {
       "name": "182 Main St. - Second Floor",
@@ -53,10 +51,18 @@
         "open": "The door is locked, and you don't have a key.\n",
         "code": "There's no keypad.\n"
       },
-      "north": "grid0724",
-      "west": "",
-      "south": "grid0924",
-      "east": ""
+      "north": "zorkObjects.theGrid.grid0724",
+      "south": "zorkObjects.theGrid.grid0924"
+    },
+    "grid0724": {
+      "name": "182 Main St. - Third Floor",
+      "description": "You're in a hallway at the top of the stairs\nthat extends to the west.",
+      "door": {
+        "open": "It's a bathroom.\n",
+        "code": "Um, not sure you want to do that.\n"
+      },
+      "west": "zorkObjects.theGrid.grid0723",
+      "south": "zorkObjects.theGrid.grid0824"
     }
     
   }
