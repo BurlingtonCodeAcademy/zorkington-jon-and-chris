@@ -1,0 +1,64 @@
+{
+  "theGrid": {
+    "inventory": {
+      "item1": {
+        "name": "A copy of Seven Days, Vermont's Alt-Weekly\n",
+        "description": "You pick up the paper and leaf through it looking for comics\nand ignoring the articles, just like everybody else does.\n"
+      },
+      "item2": {
+        "name": "MONEY!!\n",
+        "description": "'Cuz...\n"
+      }
+    },
+    "grid1024": {
+      "name": "182 Main St.",
+      "description": "You are standing on Main Street between Church and South Winooski.\nThere is a door here. A keypad sits on the handle.\nOn the door is a handwritten sign.",
+      "sign": {
+        "read": "The sign says \"Welcome to Burlington Code Academy! Come on\nup to the second floor. If the door is locked, use the code\n12345.\"\n",
+        "take": "That would be selfish. How will other students find their way?\n"
+      },
+      "door": {
+        "open": "The door is locked. There is a keypad on the door handle.\n",
+        "code": "Bzzzzt! The door is still locked.\n"
+      },
+      "north": "grid0924",
+      "west": "grid1023",
+      "south": "grid1124",
+      "east": "grid1025"
+    },
+    "grid0924": {
+      "name": "182 Main St. - Foyer",
+      "description": "You are in a foyer. Or maybe it's an antechamber. Or a\nvestibule. Or an entryway. Or an atrium. Or a narthex.\nBut let's forget all that fancy flatlander vocabulary,\nand just call it a foyer. In Vermont, this is pronounced\n\"FO-ee-yurr\".\nA copy of Seven Days lies in a corner.",
+      "sign": {
+        "read": "If there was a sign here, it would say \"pick up something\".\n",
+        "take": "No sign here.  Maybe you want to pick up something?\n"
+      },
+      "door": {
+        "open": "You open the door and look outside.  What a lovely day!\n",
+        "code": "CODE: go upstairs\n"
+      },
+      "north": "grid0824",
+      "west": "",
+      "south": "grid1024",
+      "east": ""
+    },
+    "grid0824": {
+      "name": "182 Main St. - Second Floor",
+      "description": "You are on a landing, and another staircase is ahead.\nThere's a door here, but it's locked.",
+      "sign": {
+        "read": "You see a sign that reads \"Green Mountain Semiconductor\".\nThis is not the droid you're looking for.",
+        "take": "You can't take the sign!  What's with you and signs??\n"
+      },
+      "door": {
+        "open": "The door is locked, and you don't have a key.\n",
+        "code": "There's no keypad.\n"
+      },
+      "north": "grid0724",
+      "west": "",
+      "south": "grid0924",
+      "east": ""
+    }
+    
+  }
+
+}
