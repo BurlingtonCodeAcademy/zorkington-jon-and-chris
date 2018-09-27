@@ -25,7 +25,7 @@ theGrid = {
       open: 'The door is locked. There is a keypad on the door handle.\n',
       code: 'Bzzzzt! The door is still locked.\n'
     },
-    north: () => moveToGrid(theGrid.grid0924),
+    north: () => lockedDoor(),
     west: () => moveToGrid(theGrid.grid1023),
     south: () => moveToGrid(theGrid.grid1124),
     east: () => moveToGrid(theGrid.grid1025)
@@ -67,15 +67,23 @@ theGrid = {
       code: 'Um, not sure you want to do that.\n'
     },
     west: () => moveToGrid(theGrid.grid0723),
-    south: () => moveToGrid(theGrid.grid0824)
+    south: () => moveToGrid(theGrid.grid0824),
+    north: () => deadEnd(),
+    east: () => deadEnd()
   }
 };
 
+itemsList = { item1:{
+  name: "A copy of Seven Days, Vermont's Alt-Weekly\n",
+  description: "You pick up the paper and leaf through it looking for comics\nand ignoring the articles, just like everybody else does.\n"
+}
+}
 
 
 
-let paper = "false";
-let inventory = theGrid.inventory;
+
+
+let inventory= [];
 let currentGrid = theGrid.grid1024;
 const clearScreen = () => process.stdout.write('\033c');
 const printName = () => console.log("\n\x1b[4m\x1b[32mLocation:\n\x1b[0m\x1b[1m\x1b[34m" + currentGrid.name + "\n\x1b[0m");
@@ -87,6 +95,14 @@ const refreshScreen = () => {
 const enterGrid = () => {
   refreshScreen();
   printDescription();
+}
+const deadEnd = () => {
+  refreshScreen();
+  console.log('You can\'t go that direction.')
+}
+const lockedDoor = () => {
+  refreshScreen();
+  console.log('The door is locked.')
 }
 
 const moveToGrid = (nextGrid) => {
@@ -128,28 +144,36 @@ async function start() {
         console.log(currentGrid.door.open);
         } else if (input === 'take paper' || input === 'take seven days' || input === 'pick up seven days') {
       refreshScreen();
-      paper = true;
-      console.log(inventory.item1.description);
+      inventory.push(itemsList.item1.name);
+      console.log(itemsList.item1.description);
     } else if (input === 'i' || input === 'inventory' || input === 'take inventory') {
       refreshScreen();
       console.log("You are carrying:");
-      if (paper == true) {
-        console.log(inventory.item1.name);
-      }
+      for (let item of inventory){  
+      console.log(item)};
     } else if (input === 'drop paper' || input === 'drop seven days' || input === 'put down seven days') {
       refreshScreen();
-      paper = false;
+      inventory.pop(item)
       console.log("Litterbug!");
     } else if (input.includes('enter code') && input !== 'enter code 12345') {
       refreshScreen();
       console.log(currentGrid.door.code);
     } else  if (input.includes(12345) === true) {
-      currentGrid.north();
+      moveToGrid(theGrid.grid0924);
       console.log("Success! The door opens. You enter the foyer and the door\nshuts behind you.\n");
     } else  if (input === "go upstairs") {
       currentGrid.north();
     } else  if (input === "go downstairs") {
       currentGrid.south();
+    } else  if (input.includes('north')) {
+      currentGrid.north();
+    } else  if (input.includes('south')) {
+      currentGrid.south();
+    } else  if (input.includes('west')) {
+      currentGrid.west();
+    } else  if (input.includes('east')) {
+      currentGrid.east();
+
       } else if (input === "restart") {
       console.log("Starting over...");
       currentGrid = theGrid.grid1024;
@@ -165,3 +189,6 @@ async function start() {
 
 
 start();
+
+
+//enforce lock
