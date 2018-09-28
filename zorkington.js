@@ -100,8 +100,42 @@ theGrid = {
     south: () => moveToGrid(theGrid.grid0824),
     north: () => deadEnd(),
     east: () => deadEnd()
-  }
-};
+  },
+  grid1025: {
+    id: 'Side walk - outside Muddy Waters',
+    name: 'Side walk - outside Muddy Waters',
+    description: 'You are on the side walk in front of Muddy Waters. There is a pigeon nearby.',
+    pigeon: 'coo coo',
+    door: {
+      open: 'You open the door to Muddy Waters and the smell of coffee wafts through the air.', 
+    },
+    
+    north: () => moveToGrid(theGrid.grid0925),
+    south: () => deadEnd(),
+    west: () => moveToGrid(theGrid.grid1024),
+    east: () => deadEnd()
+
+  },
+    grid0925: {
+      id: 'Muddy Waters Cafe',
+      name: 'Muddy Waters Cafe',
+      description: 'People are working and chatting. Alternative music plays in the background. An unclaimed coffee is waiting on the counter.' ,
+      
+      door: {
+        open: 'You open the door to Muddy Waters and the smell of coffee wafts through the air.', 
+      },
+      coffee:{
+        drink: 'mmm delicious java.',
+        take: 'Did you pay for that coffee?',
+      }
+
+      },
+      north: () => deadend(),
+      south: () => moveToGrid(theGrid.grid1025),
+      west: () => deadEnd(),
+      east: () => deadEnd()
+    
+  };
 
 itemsList = { 
   item1: {
@@ -205,6 +239,15 @@ async function start() {
       currentGrid.west();
     } else  if (input.includes('east')) {
       currentGrid.east();
+    } else  if (input.includes('pigeon') && currentGrid.pigeon) {
+      refreshScreen()
+      console.log('\"coo coo\"') 
+    } else if ((input.includes ('drink') || input.includes ('sip')) && input.includes('coffee') && currentGrid.coffee) {
+        refreshScreen();
+        console.log('No one has to know you took a sip of their coffee.');
+    }  else if (input.includes('take') || input.includes('steal') && input.includes ('coffee') && currentGrid.coffee) {
+        refreshScreen();
+          console.log('The barista is on to you. Better not steal it.');
     } else if (input === "restart") {
       console.log("Starting over...");
       currentGrid = theGrid.grid1024;
