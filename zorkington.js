@@ -225,7 +225,7 @@ async function start() {
       console.log("I'm sure I don't know what you mean...\x1b[36m");
     } else if (input.includes("help")) {
       clearScreen();
-      console.log("\n\n\n   \x1b[37mTHIS IS YOUR **EXTRA** HELPFUL HELP MENU!\n\n\x1b[36m----------------------------------------------\n\n\x1b[37mMovements:\x1b[36m\n\n       north\n\nwest           east\n\n       south\n\n\n\x1b[37mLocation:\x1b[36m\n\nwhere am i\n\n\n\x1b[37mRestart from beginning:\x1b[36m\n\nrestart\n\n\n\x1b[37mExit the game:\x1b[36m\n\nexit\n");
+      console.log("\n\n\n   \x1b[37mTHIS IS YOUR **EXTRA** HELPFUL HELP MENU!\n\n\x1b[36m-----------------------------------------------\n\n\x1b[37mMovements:\x1b[36m\n\n       north\n\nwest           east\n\n       south\n\n\n\x1b[37mLocation:\x1b[36m\n\nwhere am i\n\n\n\x1b[37mInventory:\n\n(\x1b[36mi\x1b[37m)\x1b[36mnventory\n\n\n\x1b[37mRestart from beginning:\x1b[36m\n\nrestart\n\n\n\x1b[37mEaster eggs???\x1b[30m\n\nxyzzy \x1b[36m|| \x1b[30mXYZZY\n\n\n\x1b[37mExit the game:\x1b[36m\n\nexit\n");
     } else { refreshScreen();
       console.log(`Sorry, I don't know how to ${input}.\n\x1b[36m`);
       }
