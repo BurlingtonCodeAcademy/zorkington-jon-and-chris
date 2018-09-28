@@ -44,7 +44,7 @@ theGrid = {
       take: 'That would be selfish. How will other students find their way?'
     },
     door: {
-      open: 'The door is locked. There is a keypad on the door handle.',
+      open: () => console.log('The door is locked. There is a keypad on the door handle.'),
       code: 'Bzzzzt! The door is still locked.'
     },
     north: () => lockedDoor(),
@@ -61,7 +61,7 @@ theGrid = {
       take: 'No sign here.  Maybe you want to pick up something?'
     },
     door: {
-      open: 'You open the door and look outside.  What a lovely day!',
+      open: () => moveToGrid(theGrid.grid1024),
       code: 'CODE: go upstairs'
     },
     up: () => moveToGrid(theGrid.grid0824),
@@ -78,7 +78,7 @@ theGrid = {
       take: 'You can\'t take the sign!  What\'s with you and signs??'
     },
     door: {
-      open: 'The door is locked, and you don\'t have a key.',
+      open: () => console.log('The door is locked, and you don\'t have a key.'),
       code: 'There\'s no keypad.'
     },
     up: () => moveToGrid(theGrid.grid0724),
@@ -88,11 +88,63 @@ theGrid = {
     west: () => deadEnd(),
     east: () => deadEnd()
   },
+  grid0723: {
+    name: '182 Main St. - Third Floor Hall (East)',
+    description: 'You\'re in a hallway with a locked door to your north, but there\'s another door down the hall to the west...',
+    north: () => lockedDoor(),
+    south: () => deadEnd(),
+    west: () => moveToGrid(theGrid.grid0722),
+    east: () => moveToGrid(theGrid.grid0724)
+  },
+  grid0722: {
+    name: '182 Main St. - Third Floor Hall (West)',
+    description: 'There\'s a door to the south that reads "BURLINGTON CODE ACADEMY".  There are weird noises coming from inside.',
+    door: {
+      open: () => moveToGrid(theGrid.grid0822)
+  },
+    north: () => deadEnd(),
+    south: () => moveToGrid(theGrid.grid0822),
+    west: () => deadEnd(),
+    east: () => moveToGrid(theGrid.grid0723)
+  },
+  grid0822: {
+    name: 'Burlington Code Academy - Hangout Area',
+    description: 'You step into a new world, a world with rules and controls, with borders and boundaries. A world where anything is possible. Where you go from here is a choice I leave to you.',
+    door: {
+      open: () => moveToGrid(theGrid.grid0722)
+  },
+  sign: {
+    read: 'It\'s too far away.',
+    take: 'OK, fine, you take the sign...\n\n\n\nNo, just kidding.  DON\'T TAKE THE SIGN!!'
+  },
+    north: () => moveToGrid(theGrid.grid0722),
+    south: () => { refreshScreen(); console.log("You look out the window to the street below.  The sign is still there.  You still can't take it.") },
+    west: () => deadEnd(),
+    east: () => moveToGrid(theGrid.grid0823)
+  },
+  grid0823: {
+    name: 'Burlington Code Academy - Serious Learning Time Place!',
+    description: 'There\'s a man here speaking gibberish.  Some call him Alex, while others call him "The Mystical JavaScript Oracle Of The North".',
+    newDescription: 'Class is in session.  SHHH.',
+    sign: {
+      read: 'Nope.',
+      take: 'Just. No.'
+    },
+    alex: {
+      coffee: 'Alex bounds to life and begins enumerating the virtues of Test Driven Development.  It sounds like gibberish at first, but then it all starts to make sense!  Congratulations, you are now a student!',
+      look: 'Dude needs some coffee.',
+      status: false
+    },
+    north: () => { refreshScreen(); console.log('You look at the whiteboard.  It has a bunch of symbols that look vaguely familiar, but the order doesn\'t make any sense to you ...YET')},
+    south: () => { refreshScreen(); console.log("You look out the window to the sky above.  The clouds look like rubber duckies.  Hmmmm...") },
+    east: () => deadEnd(),
+    west: () => moveToGrid(theGrid.grid0822)
+  },
   grid0724: {
     name: '182 Main St. - Third Floor',
-    description: 'You\'re in a hallway at the top of the stairs\nthat extends to the west.',
+    description: 'You\'re in a hallway at the top of the stairs that extends to the west.',
     door: {
-      open: 'Behind the door is a bathroom, but you don\'t need to use it now.',
+      open: () => console.log('Behind the door is a bathroom, but you don\'t need to use it now.'),
       code: 'Um, not sure you want to do that.'
     },
     down: () => moveToGrid(theGrid.grid0824),
@@ -205,8 +257,7 @@ async function start() {
         }
       } else if (input === "open door") {
         if (currentGrid.door && currentGrid.door.open) {
-          refreshScreen();
-        console.log(currentGrid.door.open);
+          currentGrid.door.open();
         }
         } else if (input === 'take paper' || input === 'take seven days' || input === 'pick up seven days') {
       refreshScreen();
@@ -254,6 +305,13 @@ async function start() {
       enterGrid();
     } else if (input === "where am i") {
       enterGrid();
+    } else if (input === "look at alex") {
+      refreshScreen();
+      console.log(theGrid.grid0823.alex.look);
+    } else if (input === "give alex coffee") {
+      theGrid.grid0823.description = theGrid.grid0823.newDescription;
+      refreshScreen();
+      console.log(theGrid.grid0823.alex.coffee);
     } else if (input === "xyzzy") {
       clearScreen();
       console.log("\n\n\n\n\n                   \x1b[35m\x1b[1m\x1b[5mA hollow voice says 'fool'\x1b[0m\n\n\n")
@@ -268,7 +326,7 @@ async function start() {
       console.log("I'm sure I don't know what you mean...\x1b[36m");
     } else if (input.includes("help")) {
       clearScreen();
-      console.log("\n\n\n   \x1b[37mTHIS IS YOUR **EXTRA** HELPFUL HELP MENU!\n\n\x1b[36m----------------------------------------------\n\n\x1b[37mMovements:\x1b[36m\n\n       north\n\nwest           east\n\n       south\n\n\n\x1b[37mLocation:\x1b[36m\n\nwhere am i\n\n\n\x1b[37mRestart from beginning:\x1b[36m\n\nrestart\n\n\n\x1b[37mExit the game:\x1b[36m\n\nexit\n");
+      console.log("\n\n\n   \x1b[37mTHIS IS YOUR **EXTRA** HELPFUL HELP MENU!\n\n\x1b[36m-----------------------------------------------\n\n\x1b[37mMovements:\x1b[36m\n\n       north\n\nwest           east\n\n       south\n\n\n\x1b[37mLocation:\x1b[36m\n\nwhere am i\n\n\n\x1b[37mInventory:\n\n(\x1b[36mi\x1b[37m)\x1b[36mnventory\n\n\n\x1b[37mRestart from beginning:\x1b[36m\n\nrestart\n\n\n\x1b[37mEaster eggs???\x1b[30m\n\nxyzzy \x1b[36m|| \x1b[30mXYZZY\n\n\n\x1b[37mExit the game:\x1b[36m\n\nexit\n");
     } else { refreshScreen();
       console.log(`Sorry, I don't know how to ${input}.\n\x1b[36m`);
       }
