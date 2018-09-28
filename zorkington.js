@@ -179,14 +179,12 @@ theGrid = {
       coffee:{
         drink: 'mmm delicious java.',
         take: 'Did you pay for that coffee?',
-      }
-
       },
       north: () => deadend(),
       south: () => moveToGrid(theGrid.grid1025),
       west: () => deadEnd(),
       east: () => deadEnd()
-    
+    }
   };
 
 itemsList = { 
